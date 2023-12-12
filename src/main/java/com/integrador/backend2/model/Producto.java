@@ -11,13 +11,15 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProducto;
-    private String titulo;
-    private String descripcion;
+    private String nombre;
     private Float precio;
     private String condicion;
     private String fechaPost;
     @ManyToOne
     @JoinColumn(name = "idUser")
     private User usuario;
+    @ManyToOne
+    @JoinColumn(name="idCategoria")
+    private Categoria categoria;
 
 }
