@@ -30,6 +30,9 @@ public class CategoriaController {
     public Categoria actualizar(@RequestBody Categoria categoria, @PathVariable("id") Integer id){
         Categoria categoriaDB = categoriaRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("La categoría con id: "+id+" no fue encontrado."));
+        categoriaDB.setNombre(categoria.getNombre());
+        categoriaDB.setDescripcion(categoria.getDescripcion());
+        categoriaDB.setNombre(categoria.getNombre());
         return categoriaRepository.save(categoriaDB);
     }
 
@@ -42,6 +45,4 @@ public class CategoriaController {
             return false;
         }
     }
-
-
 }

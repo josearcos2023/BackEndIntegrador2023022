@@ -2,6 +2,9 @@ package com.integrador.backend2.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Data
 @Entity
@@ -14,12 +17,17 @@ public class Producto {
     private String nombre;
     private Float precio;
     private String condicion;
-    private String fechaPost;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "fecha-post")
+    private Date fechaPost;
+    private String imagen;
     @ManyToOne
     @JoinColumn(name = "idUser")
     private User usuario;
     @ManyToOne
     @JoinColumn(name="idCategoria")
-    private Categoria categoria;
+    private Categoria idcategoria;
+
+    public Producto(){ }
 
 }

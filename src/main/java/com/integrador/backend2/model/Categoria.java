@@ -13,6 +13,6 @@ public class Categoria {
     private Integer idCategoria;
     private String nombre;
     private String descripcion;
-    private Integer total;
+    public Categoria(){}
 
 }

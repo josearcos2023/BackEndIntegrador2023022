@@ -1,18 +1,23 @@
 package com.integrador.backend2.service;
 
+import com.integrador.backend2.domain.ProductoTO;
 import com.integrador.backend2.model.Categoria;
 import com.integrador.backend2.model.Producto;
+import com.integrador.backend2.model.User;
 import com.integrador.backend2.repository.CategoriaRepository;
 import com.integrador.backend2.repository.ProductoRepository;
+import com.integrador.backend2.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.PublicKey;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("api_int_2023/productos")
 public class ProductoController {
@@ -20,8 +25,30 @@ public class ProductoController {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping(value = "store", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Producto store(@RequestBody Producto producto) {
+    public Producto store(@RequestBody ProductoTO productoTo) {
+        Integer idcategoria = productoTo.getIdcategoria();
+        Categoria categoria = categoriaRepository.findById(idcategoria)
+                .orElseThrow(() -> new RuntimeException("Categoria encontrada con id: " + idcategoria));
+
+        Integer idusuario = productoTo.getUsuario();
+        User usuario = userRepository.findById(idusuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + idusuario));
+
+        Producto producto = new Producto();
+        producto.setNombre(productoTo.getNombre());
+        producto.setPrecio(productoTo.getPrecio());
+        producto.setCondicion(productoTo.getCondicion());
+        producto.setFechaPost(new Date());
+        producto.setUsuario(usuario);
+        producto.setIdcategoria(categoria);
+
         return productoRepository.save(producto);
     }
 
@@ -46,23 +73,15 @@ public class ProductoController {
             return false;
         }
     }
-/*
-    @GetMapping("/getByCategoria/{idCategoria}")
-    public Optional<Producto> getByCategoria(@PathVariable ("idCategoria") Integer idCategoria){
-        Optional<Categoria> categoria = categoriaRepository.findByIdCategoria(idCategoria)
-        return productoRepository.findByIdCategoria(categoria.get());
-    }
-
 
     @GetMapping("/getByIdCategoria/{idCategoria}")
-    public Optional<Producto> getByIdCategoria(@PathVariable ("idCategoria") Integer idCategoria){
-        Optional<Categoria>
-        return productoRepository.findByCategoria(getByIdCategoria(idCategoria));
-    }
-*/
-    @GetMapping("/getByIdProducto/{idProducto}")
-    public Optional<Producto> getByIdProducto(@PathVariable ("idProducto") Integer idProducto){
-        return productoRepository.findByIdProducto(idProducto);
+    public List<Producto> getByIdCategoria(@PathVariable ("idCategoria") Categoria idCategoria){
+
+        return productoRepository.findProductoByIdcategoria(idCategoria);
     }
 
+    @GetMapping("/getByIdProducto/{idProducto}")
+    public List<Producto> getByIdProducto(@PathVariable ("idProducto") Integer idProducto){
+        return productoRepository.findProductoByIdProducto(idProducto);
+    }
 }

@@ -17,4 +17,7 @@ public class User {
     private String lastLogin;
     private String estado;
     private String isAdmin;
+
+    public User(){}
+
 }
