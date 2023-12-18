@@ -1,4 +1,4 @@
-package com.integrador.backend2.service;
+package com.integrador.backend2.controller;
 
 import com.integrador.backend2.model.Transaccion;
 import com.integrador.backend2.repository.TransaccionRepository;

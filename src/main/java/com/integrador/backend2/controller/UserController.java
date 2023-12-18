@@ -1,15 +1,20 @@
-package com.integrador.backend2.service;
+package com.integrador.backend2.controller;
 
+import com.integrador.backend2.domain.LoginDTO;
+import com.integrador.backend2.domain.UserDTO;
 import com.integrador.backend2.model.User;
 import com.integrador.backend2.repository.UserRepository;
+import com.integrador.backend2.response.LoginResponse;
+import com.integrador.backend2.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("api_int_2023/users")
 public class UserController {
@@ -42,6 +47,21 @@ public class UserController {
         } catch (Exception err){
             return false;
         }
+    }
+
+    @Autowired
+    private UserService userService;
+    @PostMapping(path = "/save")
+    public String saveUser(@RequestBody UserDTO userDTO)
+    {
+        return userService.addUser(userDTO);
+    }
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> loginEmployee(@RequestBody LoginDTO loginDTO)
+    {
+        LoginResponse loginResponse = userService.loginUser(loginDTO);
+        //UserDTO userDTO = new UserDTO();
+        return ResponseEntity.ok(loginResponse);
     }
 
 }

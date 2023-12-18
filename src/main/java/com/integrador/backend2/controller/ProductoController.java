@@ -1,6 +1,6 @@
-package com.integrador.backend2.service;
+package com.integrador.backend2.controller;
 
-import com.integrador.backend2.domain.ProductoTO;
+import com.integrador.backend2.domain.ProductoDTO;
 import com.integrador.backend2.model.Categoria;
 import com.integrador.backend2.model.Producto;
 import com.integrador.backend2.model.User;
@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -32,7 +30,7 @@ public class ProductoController {
     private UserRepository userRepository;
 
     @PostMapping(value = "store", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Producto store(@RequestBody ProductoTO productoTo) {
+    public Producto store(@RequestBody ProductoDTO productoTo) {
         Integer idcategoria = productoTo.getIdcategoria();
         Categoria categoria = categoriaRepository.findById(idcategoria)
                 .orElseThrow(() -> new RuntimeException("Categoria encontrada con id: " + idcategoria));
