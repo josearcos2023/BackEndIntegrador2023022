@@ -18,7 +18,7 @@ public class Producto {
     private Float precio;
     private String condicion;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "fecha-post")
+    @Column(name = "fechaPost")
     private Date fechaPost;
     private String imagen;
     @ManyToOne

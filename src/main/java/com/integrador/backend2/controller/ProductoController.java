@@ -1,4 +1,4 @@
-package com.integrador.backend2.service;
+package com.integrador.backend2.controller;
 
 import com.integrador.backend2.domain.ProductoTO;
 import com.integrador.backend2.model.Categoria;
@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
